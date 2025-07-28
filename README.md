@@ -20,6 +20,13 @@ Sistem Pendukung Keputusan (SPK) Pemilihan Program Studi ini dibuat untuk memban
 ### 📄 Laporan PDF
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b8e3298b-694a-4bb0-81c1-846692b72241" />
 
+### 🔐 Tampilan Login Admin
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/2bfec8b7-3469-4e54-be9e-6882bb949a3d" />
+
+### 📊 Dashboard Admin
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ea582651-1729-4298-9731-c887cdf3e6de" />
+
+
 ---
 ## 🚀 Fitur Utama
 
