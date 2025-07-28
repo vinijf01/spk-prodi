@@ -85,7 +85,8 @@
 
                     <div class="row">
                         <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
-                            <img src="{{ asset('assets/img/about.jpg') }}" class="img-fluid" alt="">
+                            <img src="{{ asset('assets/img/about.png') }}" class="img-fluid" style="height: 80%"
+                                alt="">
                         </div>
                         <div class="col-lg-6 pt-4 pt-lg-0 content d-flex flex-column justify-content-center"
                             data-aos="fade-up" data-aos-delay="100">

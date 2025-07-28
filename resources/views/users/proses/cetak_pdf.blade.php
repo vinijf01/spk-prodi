@@ -1,221 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title }}</title>
-
-    <!-- Core CSS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.min.js"
-        integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
-        .hasil-pilihan {
-            border-radius: 50px;
-            border: 0.5px solid rgb(54, 54, 54);
-            padding: 20px;
-            width: 100%;
-
+        * {
+            box-sizing: border-box;
         }
 
-        .txt-center {
+        body {
+            font-family: DejaVu Sans, sans-serif;
+            font-size: 10pt;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+
+        .wrapper {
+            min-height: 90vh;
+            padding: 20px;
+        }
+
+        .header {
             text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .header img {
+            width: 60px;
+        }
+
+        .judul-laporan {
+            font-size: 16pt;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .subjudul {
+            font-size: 10pt;
+            color: #555;
+        }
+
+        .meta {
+            text-align: right;
+            font-size: 9pt;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 13pt;
+            margin: 20px 0 10px;
         }
 
         table {
-            table-layout: auto;
             width: 100%;
-            border: 1px solid rgb(39, 39, 39);
-            padding: 5px;
-            margin: 10px;
+            border-collapse: collapse;
+            margin-bottom: 15px;
         }
 
-        tr {
-            height: 20px;
+        th,
+        td {
+            border: 1px solid #999;
+            padding: 6px;
+            text-align: center;
         }
 
-        td,
         th {
-            border: 1px solid rgb(39, 39, 39);
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+            background-color: #f2f2f2;
         }
 
-        table.center {
-            margin-left: auto;
-            margin-right: auto;
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
 
-        .page-break {
-            page-break-after: always;
+        .highlight {
+            text-align: center;
+            font-size: 14pt;
+            color: green;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 10px;
+            border-top: 1px solid #ccc;
+            text-align: center;
+            font-size: 9pt;
+            color: #aaa;
         }
     </style>
-
 </head>
 
 <body>
-    <div class="container">
-        <h1 style="color:rgb(33, 33, 33);" class="txt-center">{!! $title !!}</h1>
-        <br><br>
-        <div class="hasil-pilihan txt-center">
-            <div class="row p-4">
-                <div class="col-md-12">
-                    <h1>Halo,{{ session('name') }}</h1>
-                    <span class="app-brand-logo demo">
-                        <img src="{{ asset('assets/img/favicon.png') }}" alt
-                            class="w-px-40 h-auto rounded-circle mt-2 mb-2" />
-                    </span>
-                    <h2>Rekomendasi Program Studi Terbaik untuk Anda adalah :<br><br>
-                        <span style="color:red">{{ $result['prodi_max'] }}
-                        </span>
-                    </h2>
-                </div>
-            </div>
+
+    <div class="wrapper">
+        {{-- HEADER --}}
+        <div class="header">
+            <img src="{{ public_path('assets/img/logo_dummy.png') }}" alt="Logo">
+            <div class="judul-laporan">{{ $title }}</div>
+            <div class="subjudul">Sistem Pendukung Keputusan Pemilihan Program Studi</div>
         </div>
 
-        {{-- Hasil Perangkingan --}}
-        <h3 class="txt-center">Hasil Perangkingan Program Studi</h3>
-        <br>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Nama Prodi</th>
-                    <th scope="col">Nilai</th>
-                    <th scope="col">Peringkat</th>
-                </tr>
-            </thead>
-            {{-- <tbody>
-                @php
-                    $id_pref = 1;
-                @endphp
-                @foreach ($result['sort_rank'] as $index => $item)
-                    <tr @if ($id_pref == 1) style="background: rgb(192, 221, 255);" @endif>
-                        <td>{{ $index }}</td>
-                        <td>{{ round($item, 2) }}</td>
-                        <td>{{ $id_pref }}</td>
-                        @php
-                            $id_pref = $id_pref + 1;
-                        @endphp
-                    </tr>
-                @endforeach
-
-            </tbody> --}}
-        </table>
-        <div class="page-break"></div>
-        {{-- Proses Perhitungan --}}
-
-        {{-- Tabel Perbandingan Kriteria dan Alternatif --}}
-        <div class="txt-center">
-            <h3>Proses Perhitungan</h3><br>
-            <h5>Tabel Perbandingan Kriteria dan Alternatif</h5>
+        {{-- META INFO --}}
+        <div class="meta">
+            <strong>Nama:</strong> {{ $user }}<br>
+            <strong>Tanggal:</strong> {{ \Carbon\Carbon::now()->format('d M Y, H:i') }}
         </div>
-        <br>
-        <table class="table table-bordered">
+
+        {{-- REKOMENDASI TERBAIK --}}
+        <h2>1. Rekomendasi Program Studi Terbaik</h2>
+        <div class="highlight">{{ strtoupper($result['prodi_max'] ?? '-') }}</div>
+
+        {{-- TABEL ALTERNATIF --}}
+        <h2>2. Data Alternatif (Prodi dan Penilaian)</h2>
+        <table>
             <thead>
                 <tr>
-                    <th scope="col">Nama Prodi</th>
-                    @foreach ($result['nama'] as $index => $item)
-                        <th scope="col">{{ $item }}</th>
+                    <th>No</th>
+                    <th>Nama Prodi</th>
+                    @foreach ($result['id'] ?? [] as $id)
+                        <th>P{{ $id }}</th>
                     @endforeach
                 </tr>
             </thead>
             <tbody>
-                @foreach ($result['data'] as $index => $item)
+                @foreach ($result['data'] as $i => $item)
                     <tr>
-                        <th>{{ $item['nama'] }}</th>
-                        @foreach ($result['id'] as $value)
-                            <td>
-                                {{ $item['p' . $value] }}
-                            </td>
+                        <td>{{ $i + 1 }}</td>
+                        <td>{{ $item['nama'] }}</td>
+                        @foreach ($result['id'] ?? [] as $id)
+                            <td>{{ $item['p' . $id] ?? '-' }}</td>
                         @endforeach
                     </tr>
                 @endforeach
             </tbody>
-            {{-- <tfoot>
-                <tr>
-                    <th>Max</th>
-                    @foreach ($result['max'] as $item)
-                        <td>
-                            {{ $item }}
-                        </td>
-                    @endforeach
-
-                </tr>
-            </tfoot> --}}
         </table>
 
-        {{-- Tabel Normalisasi Perbandingan Alternatif dan Kriteria --}}
-        <div class="txt-center">
-            <h5>Tabel Perbandingan Kriteria dan Alternatif</h5>
-        </div>
-        <br>
-        <table class="table table-bordered">
-            <thead>
-                {{-- <tr>
-                    <th scope="col">Nama Prodi</th>
-                    @foreach ($result['nama'] as $index => $item)
-                        <th scope="col">{{ $item }}</th>
-                    @endforeach
-                </tr> --}}
-            </thead>
-            {{-- <tbody>
-                @php
-                    $normal = [];
-                    $id = 0;
-                @endphp
-                @foreach ($result['data'] as $item)
+        {{-- TABEL NILAI PREFERENSI --}}
+        @if (isset($result['preferensi']))
+            <h2>3. Nilai Preferensi</h2>
+            <table>
+                <thead>
                     <tr>
-                        <th>{{ $item['nama'] }}</th>
-
-                        @foreach ($result['normalisasi'] as $index => $item)
-                            <td>{{ round($item[$id], 2) }}</td>
-                        @endforeach
-                        @php
-                            $id = $id + 1;
-                        @endphp
+                        <th>No</th>
+                        <th>Nama Prodi</th>
+                        <th>Nilai Preferensi</th>
                     </tr>
-                @endforeach
-            </tbody> --}}
-        </table>
-
-        {{-- Tabel Nilai Preferensi --}}
-        <div class="txt-center">
-            <h5>Tabel Nilai Preferensi</h5>
-        </div>
-        <br>
-        <table class="table table-bordered">
-            {{-- <thead>
-                <tr>
-                    <th scope="col">Nama Prodi</th>
-                    @foreach ($result['nama'] as $index => $item)
-                        <th scope="col">{{ $item }}</th>
+                </thead>
+                <tbody>
+                    @foreach ($result['preferensi'] as $index => $nilai)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $result['data'][$index]['nama'] ?? '-' }}</td>
+                            <td>{{ round($nilai, 4) }}</td>
+                        </tr>
                     @endforeach
-                </tr>
-            </thead> --}}
-            {{-- <tbody>
-                @php
-                    $id_pref = 0;
-                @endphp
-                @foreach ($result['data'] as $item)
-                    <tr>
-                        <th>{{ $item['nama'] }}</th>
-                        @foreach ($result['preferensi'] as $index => $pref)
-                            <td>{{ round($pref[$id_pref], 2) }}</td>
-                        @endforeach
-                        @php
-                            $id_pref = $id_pref + 1;
-                        @endphp
-                    </tr>
-                @endforeach
-            </tbody> --}}
-        </table>
+                </tbody>
+            </table>
+        @endif
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
-    </script>
+
+    {{-- FOOTER --}}
+    <div class="footer">
+        Halaman {{ '{PAGE_NUM}' }} dari {{ '{PAGE_COUNT}' }} | Dicetak oleh sistem SPK Prodi Universitas Metamedia
+    </div>
+
 </body>
 
 </html>

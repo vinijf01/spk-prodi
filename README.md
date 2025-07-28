@@ -1,40 +1,60 @@
-# SPK Pemilihan Program Studi
+# SPK Pemilihan Program Studi (Tugas Kuliah)
 
 Sistem Pendukung Keputusan (SPK) Pemilihan Program Studi ini dibuat untuk membantu siswa dalam menentukan pilihan jurusan yang sesuai berdasarkan preferensi dan kriteria tertentu. Sistem ini menggunakan pendekatan berbasis pertanyaan dan penilaian untuk memberikan rekomendasi program studi.
 
-## Fitur Utama
+---
+## 📸 Cuplikan UI
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/abf18b14-49ca-4027-b685-088f211bfd18" />
 
--   Form pemilihan awal berdasarkan preferensi
--   Pertanyaan lanjutan sesuai kriteria
--   Rekomendasi program studi berdasarkan hasil evaluasi
--   Pencetakan hasil rekomendasi ke dalam PDF
--   Panel Admin untuk mengelola:
-    -   Program Studi
-    -   Data Sekolah
-    -   Pilihan Jawaban
-    -   Kriteria Penilaian
-    -   Pertanyaan
-    -   Preferensi
+### 🔍 Halaman Awal Pemilihan
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ea0d6c22-2bac-4138-8e64-46131940d165" />
 
-## Metodologi Perhitungan
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/46630c05-f92b-4246-aa76-d818114e3bae" />
 
-Aplikasi ini menggunakan gabungan dua metode populer dalam Sistem Pendukung Keputusan:
+### ✅ Form Pertanyaan dan Penilaian
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/19afb88f-c289-4734-89f9-65a0da620b21" />
 
--   **AHP (Analytical Hierarchy Process)**  
-    Digunakan untuk menentukan bobot kepentingan dari setiap kriteria yang ada berdasarkan perbandingan berpasangan. AHP membantu dalam menyusun hierarki keputusan dan mengukur konsistensi penilaian pengguna.
+### 🧠 Hasil Rekomendasi
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4b0b8271-743a-44e7-b4d2-c48aeb0b4fdf" />
 
--   **TOPSIS (Technique for Order of Preference by Similarity to Ideal Solution)**  
-    Digunakan untuk menghitung peringkat alternatif program studi berdasarkan kedekatannya dengan solusi ideal positif dan solusi ideal negatif. TOPSIS mempertimbangkan nilai preferensi siswa dan hasil bobot dari AHP untuk memberikan rekomendasi terbaik.
+### 📄 Laporan PDF
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b8e3298b-694a-4bb0-81c1-846692b72241" />
 
-Kombinasi AHP dan TOPSIS memberikan pendekatan yang kuat dan objektif dalam menentukan program studi yang paling sesuai bagi siswa.
+### 🔐 Tampilan Login Admin
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/2bfec8b7-3469-4e54-be9e-6882bb949a3d" />
 
-## Teknologi yang Digunakan
+### 📊 Dashboard Admin
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ea582651-1729-4298-9731-c887cdf3e6de" />
 
--   **Framework**: Laravel (PHP)
--   **Frontend**: Blade Template
--   **Database**: MySQL
--   **PDF Generator**: DomPDF
--   **Authentication**: Laravel Auth Middleware
+
+---
+## 🚀 Fitur Utama
+
+- 🧑‍🎓 Pemilihan jurusan berdasarkan sekolah
+- 📋 Kuesioner pertanyaan berbasis kriteria
+- 🧠 Perhitungan berbasis AHP dan TOPSIS
+- 📊 Hasil perangkingan & rekomendasi prodi
+- 📄 Export laporan hasil dalam bentuk PDF profesional
+- 🔒 Admin Panel CRUD: Prodi, Kriteria, Pertanyaan, Preferensi, Sekolah, dsb.
+
+---
+## 🧪 Metodologi Perhitungan
+
+| Metode | Fungsi |
+|--------|--------|
+| **AHP** | Menentukan bobot tiap kriteria dari hasil perbandingan berpasangan |
+| **TOPSIS** | Menentukan peringkat alternatif berdasarkan jarak ideal positif dan negatif |
+
+
+---
+
+## 🛠️ Teknologi & Stack
+
+- **Backend**: Laravel 10.x
+- **Database**: MySQL / MariaDB
+- **Frontend**: Blade Template + Bootstrap
+- **PDF Generator**: TCPDF
+- **Auth**: Laravel Auth Middleware
 
 ## Struktur Routing
 
@@ -68,10 +88,22 @@ Kombinasi AHP dan TOPSIS memberikan pendekatan yang kuat dan objektif dalam mene
 | `/admin-pertanyaan` | `PertanyaanController` | CRUD Pertanyaan         |
 | `/admin-preferensi` | `PreferensiController` | CRUD Preferensi         |
 
-## Instalasi
+## 📦 Instalasi
 
-1. Clone repository ini:
-    ```bash
-    git clone https://github.com/vinijf01/spk-prodi.git
-    cd spk-prodi
-    ```
+```bash
+git clone https://github.com/vinijf01/spk-prodi.git
+cd spk-prodi
+
+# Install dependencies
+composer install
+npm install && npm run dev
+
+# Setup environment
+cp .env.example .env
+php artisan key:generate
+
+# Setup database
+php artisan migrate:fresh --seed
+
+# Jalankan server lokal
+php artisan serve

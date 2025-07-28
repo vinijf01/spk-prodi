@@ -56,9 +56,44 @@ class ProsesController extends Controller
         ]);
     }
 
+    // public function createPDF(Request $request)
+    // {
+    //     if (!$request->session()->get('result')) {
+    //         return redirect()->route('dashboard-user');
+    //     }
+
+    //     // dd($request->session()->get('result'));
+
+
+    //     $filename = 'hasil_rekomendasi_prodi.pdf';
+
+    //     $data = [
+    //         'title' => 'Hasil Rekomendasi Program Studi',
+    //         'result' => $request->session()->get('result')
+    //     ];
+
+    //     $html = view()->make('users.proses.cetak_pdf', $data)->render();
+
+    //     $pdf = new TCPDF();
+
+    //     $pdf::SetTitle('Hasil Rekomendasi Program Studi'); //title di tag <title></title>
+    //     $pdf::AddPage();
+    //     //output html content
+    //     //param : html,In,Fill,reseth,cell, align 
+    //     $pdf::writeHTML($html, true, false, true, true, '');
+
+    //     //param : name , dest F : menyimpan ke lokal dengan nama sesuai param name
+    //     $pdf::Output(public_path($filename), 'F');
+
+    //     // return $data;
+
+    //     return response()->download(public_path($filename));
+    // }
     public function createPDF(Request $request)
     {
-        if (!$request->session()->get('result')) {
+        $result = $request->session()->get('result');
+
+        if (!$result) {
             return redirect()->route('dashboard-user');
         }
 
@@ -66,24 +101,28 @@ class ProsesController extends Controller
 
         $data = [
             'title' => 'Hasil Rekomendasi Program Studi',
-            'result' => $request->session()->get('result')
+            'result' => $result,
+            'user' => session('name') ?? 'Pengguna'
         ];
 
-        $html = view()->make('users.proses.cetak_pdf', $data)->render();
+        $html = view('users.proses.cetak_pdf', $data)->render();
 
-        $pdf = new TCPDF();
+        // Inisialisasi TCPDF
+        $pdf = new \TCPDF();
 
-        $pdf::SetTitle('Hasil Rekomendasi Program Studi'); //title di tag <title></title>
-        $pdf::AddPage();
-        //output html content
-        //param : html,In,Fill,reseth,cell, align 
-        $pdf::writeHTML($html, true, false, true, true, '');
+        // Atur properti dasar PDF
+        $pdf->SetTitle($data['title']);
+        $pdf->SetMargins(15, 20, 15);
+        $pdf->AddPage();
+        $pdf->SetFont('helvetica', '', 10);
 
-        //param : name , dest F : menyimpan ke lokal dengan nama sesuai param name
-        $pdf::Output(public_path($filename), 'F');
+        // Tulis konten HTML
+        $pdf->writeHTML($html, true, false, true, false, '');
 
-        // return $data;
+        // Simpan ke file publik
+        $pdf->Output(public_path($filename), 'F');
 
+        // Unduh file
         return response()->download(public_path($filename));
     }
 }
