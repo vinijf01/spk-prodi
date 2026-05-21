@@ -55,13 +55,13 @@ class PertanyaanController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'id_prodi' => 'required',
-            'id_kriteria' => 'required',
+        $validated = $request->validate([
+            'id_prodi' => 'required|exists:prodis,id',
+            'id_kriteria' => 'required|exists:kriteria,id',
             'pertanyaan' => 'required'
         ]);
 
-        Pertanyaan::create($request->all());
+        Pertanyaan::create($validated);
 
         return redirect()->route('admin-pertanyaan.index')->with('success', 'Data Berhasil Ditambahkan');
     }
@@ -105,7 +105,14 @@ class PertanyaanController extends Controller
     public function update(Request $request, $id)
     {
         $data = Pertanyaan::find($id);
-        $data->update($request->all());
+
+        $validated = $request->validate([
+            'id_prodi' => 'required|exists:prodis,id',
+            'id_kriteria' => 'required|exists:kriteria,id',
+            'pertanyaan' => 'required',
+        ]);
+
+        $data->update($validated);
         return redirect()->route('admin-pertanyaan.index')->with('success', 'Data Berhasil Diperbarui');
     }
 

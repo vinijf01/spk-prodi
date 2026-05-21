@@ -113,7 +113,13 @@ class PilihanController extends Controller
     public function update(Request $request, $id)
     {
         $data = Pilihan::find($id);
-        $data->update($request->all());
+
+        $validated = $request->validate([
+            'id_sekolah' => 'required|exists:jurusan_sekolahs,id',
+            'id_prodi' => 'required|exists:prodis,id',
+        ]);
+
+        $data->update($validated);
         return redirect()->route('admin-pilihan.index')->with('success', 'Data Berhasil Diperbarui');
     }
 

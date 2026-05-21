@@ -47,10 +47,11 @@ class SekolahController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama_jurusan' => 'required'
         ]);
-        Jurusan_Sekolah::create($request->all());
+
+        Jurusan_Sekolah::create($validated);
 
         return redirect()->route('admin-sekolah.index')->with('success', 'Data Berhasil Ditambahkan');
     }
@@ -92,7 +93,12 @@ class SekolahController extends Controller
     public function update(Request $request, $id)
     {
         $data = Jurusan_Sekolah::find($id);
-        $data->update($request->all());
+
+        $validated = $request->validate([
+            'nama_jurusan' => 'required|unique:jurusan_sekolahs,nama_jurusan,' . $data->id,
+        ]);
+
+        $data->update($validated);
         return redirect()->route('admin-sekolah.index')->with('success', 'Data Berhasil Disimpan');
     }
 

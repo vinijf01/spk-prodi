@@ -47,10 +47,11 @@ class KriteriaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama_kriteria' => 'required'
         ]);
-        Kriteria::create($request->all());
+
+        Kriteria::create($validated);
         return redirect()->route('admin-kriteria.index')->with('success', 'Data Berhasil Ditambahkan');
     }
 
@@ -91,7 +92,12 @@ class KriteriaController extends Controller
     public function update(Request $request, $id)
     {
         $data = Kriteria::find($id);
-        $data->update($request->all());
+
+        $validated = $request->validate([
+            'nama_kriteria' => 'required',
+        ]);
+
+        $data->update($validated);
         return redirect()->route('admin-kriteria.index')->with('success', 'Data Berhasil Diupdate');
     }
 

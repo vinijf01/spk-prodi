@@ -57,13 +57,14 @@ class PreferensiController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'keterangan' => 'required|min:3',
-            'nilai' => 'required',
-            'kriteria_1' => 'required',
-            'kriteria_2' => 'required',
+            'nilai' => 'required|integer|min:1',
+            'kriteria_1' => 'required|exists:kriteria,id',
+            'kriteria_2' => 'required|exists:kriteria,id',
         ]);
-        Preferensi::create($request->all());
+
+        Preferensi::create($validated);
         return redirect()->route('admin-preferensi.index')->with('success', 'Data Berhasil Ditambahkan');
     }
 
@@ -104,7 +105,15 @@ class PreferensiController extends Controller
     public function update(Request $request, $id)
     {
         $data = Preferensi::find($id);
-        $data->update($request->all());
+
+        $validated = $request->validate([
+            'keterangan' => 'required|min:3',
+            'nilai' => 'required|integer|min:1',
+            'kriteria_1' => 'required|exists:kriteria,id',
+            'kriteria_2' => 'required|exists:kriteria,id',
+        ]);
+
+        $data->update($validated);
         return redirect()->route('admin-preferensi.index')->with('success', 'Data Berhasil Disimpan');
     }
 

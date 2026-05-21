@@ -49,12 +49,11 @@ class ProdiController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        $request->validate([
+        $validated = $request->validate([
             'nama_prodi' => 'required|unique:prodis',
         ]);
 
-        Prodi::create($request->all());
+        Prodi::create($validated);
 
         return redirect()->route('admin-prodi.index')->with('success', 'Data Berhasil Ditambahkan');
     }
@@ -96,7 +95,12 @@ class ProdiController extends Controller
     public function update(Request $request, $id_prodi)
     {
         $data = Prodi::find($id_prodi);
-        $data->update($request->all());
+
+        $validated = $request->validate([
+            'nama_prodi' => 'required|unique:prodis,nama_prodi,' . $data->id,
+        ]);
+
+        $data->update($validated);
         return redirect()->route('admin-prodi.index')->with('success', 'Data Berhasil Diperbarui');
     }
 
