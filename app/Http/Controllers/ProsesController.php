@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\HasilPilihanRequest;
+use App\Http\Requests\PertanyaanProdiRequest;
+use App\Http\Requests\PilihanProdiRequest;
 use App\Metode\Hasil as MetodeHasil;
 use App\Models\Jurusan_Sekolah;
 use App\Models\Kriteria;
@@ -19,10 +22,12 @@ class ProsesController extends Controller
         return view('welcome', compact('jurusanSekolah'));
     }
 
-    public function pilihanProdi(Request $request)
+    public function pilihanProdi(PilihanProdiRequest $request)
     {
-        $request->session()->put('name', $request->input('name'));
-        $request->session()->put('id', $request->input('jurusansekolah_id'));
+        $validated = $request->validated();
+
+        $request->session()->put('name', $validated['name']);
+        $request->session()->put('id', $validated['jurusansekolah_id']);
 
         // Menggunakan custom_id saat mencari sekolah
         $sekolah = Jurusan_Sekolah::find($request->session()->get('id'));
@@ -31,9 +36,10 @@ class ProsesController extends Controller
         return view('users.proses.select', compact('available', 'sekolah'));
     }
 
-    public function pertanyaan(Request $request)
+    public function pertanyaan(PertanyaanProdiRequest $request)
     {
-        $request->session()->put('prodi_id', $request->input('id_prodi'));
+        $validated = $request->validated();
+        $request->session()->put('prodi_id', $validated['id_prodi']);
 
         $idProdi = $request->session()->get('prodi_id');
         $prodi = Prodi::whereIn('id', $idProdi)->get();
@@ -43,7 +49,7 @@ class ProsesController extends Controller
         return view('users.proses.pertanyaan', compact('prodi', 'kriteria', 'pertanyaan'));
     }
 
-    public function hasilPilihan(Request $request)
+    public function hasilPilihan(HasilPilihanRequest $request)
     {
         // return $request->all();
         // return Hasil::hasilakhir($request);
