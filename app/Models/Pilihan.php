@@ -12,7 +12,7 @@ class Pilihan extends Model
 
     public function jurusansekolah()
     {
-        return $this->belongsTo(JurusanSekolah::class, 'id_sekolah');
+        return $this->belongsTo(Jurusan_Sekolah::class, 'id_sekolah');
     }
 
     public function prodi()

@@ -94,7 +94,8 @@ class ProsesController extends Controller
         $result = $request->session()->get('result');
 
         if (!$result) {
-            return redirect()->route('dashboard-user');
+            // Route `dashboard-user` tidak terdefinisi di repo ini; kembali ke landing page.
+            return redirect()->route('index');
         }
 
         $filename = 'hasil_rekomendasi_prodi.pdf';

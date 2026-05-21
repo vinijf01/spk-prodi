@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Prodi extends Model
 {
     use HasFactory;
-    protected $tabel = 'prodis';
+    protected $table = 'prodis';
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
 
@@ -20,6 +20,6 @@ class Prodi extends Model
 
     public function pertanyaan()
     {
-        return $this->belongsTo(Pertanyaan::class, 'id_prodi', 'id');
+        return $this->hasMany(Pertanyaan::class, 'id_prodi', 'id');
     }
 }
