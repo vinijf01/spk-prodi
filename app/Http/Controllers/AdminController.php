@@ -3,12 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jurusan_Sekolah;
-use App\Models\Preferensi;
 use App\Models\Prodi;
-use App\Metode\Hasil as MetodeHasil;
-use App\Models\Kriteria;
-use App\Models\Pertanyaan;
-use App\Models\Pilihan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 

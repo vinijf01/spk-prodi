@@ -4,28 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Kriteria;
 use App\Models\Preferensi;
+use App\Services\SpkService;
 use Illuminate\Http\Request;
-use App\Metode\Hasil as MetodeHasil;
 
 class PreferensiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function __construct()
+    protected SpkService $spkService;
+
+    public function __construct(SpkService $spkService)
     {
         $this->middleware('auth');
+        $this->spkService = $spkService;
     }
 
     public function index()
     {
         $pre = Preferensi::all();
         if ($pre->count()) {
-            $metoda = MetodeHasil::metoda();
+            $metoda = $this->spkService->hitungBobot();
         } else {
-            $metoda = '';
+            $metoda = [];
         }
         return view('admin.preferensi.index', [
             'title' => 'Preferensi',

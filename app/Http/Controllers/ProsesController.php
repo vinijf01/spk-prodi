@@ -5,17 +5,24 @@ namespace App\Http\Controllers;
 use App\Http\Requests\HasilPilihanRequest;
 use App\Http\Requests\PertanyaanProdiRequest;
 use App\Http\Requests\PilihanProdiRequest;
-use App\Metode\Hasil as MetodeHasil;
 use App\Models\Jurusan_Sekolah;
 use App\Models\Kriteria;
 use App\Models\Pertanyaan;
 use App\Models\Pilihan;
 use App\Models\Prodi;
+use App\Services\SpkService;
 use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Http\Request;
 
 class ProsesController extends Controller
 {
+    protected SpkService $spkService;
+
+    public function __construct(SpkService $spkService)
+    {
+        $this->spkService = $spkService;
+    }
+
     public function index()
     {
         $jurusanSekolah = Jurusan_Sekolah::all();
@@ -51,14 +58,31 @@ class ProsesController extends Controller
 
     public function hasilPilihan(HasilPilihanRequest $request)
     {
-        // return $request->all();
-        // return Hasil::hasilakhir($request);
-        $request->session()->put('result', MetodeHasil::hasilakhir($request));
-        // dd($request->session()->get('result'));
+        $ahp = $this->spkService->hitungBobot();
+        $dataAlternatif = $request->input('data');
 
+        // Pastikan data bobot ada sebelum hitung peringkat
+        if (empty($ahp) || empty($ahp['prioritas'])) {
+            // Fallback atau error handling jika AHP belum disetting
+            $result = [];
+        } else {
+            $result = $this->spkService->hitungPeringkat(
+                $dataAlternatif,
+                $ahp['prioritas'],
+                $ahp['idKriteria'],
+                $ahp['namaKriteria'] ?? []
+            );
+            // Merge data AHP yang dibutuhkan view
+            $result['comparation'] = $ahp['comparation'] ?? [];
+            $result['total'] = $ahp['total'] ?? [];
+            $result['ci'] = $ahp['ci'] ?? 0;
+            $result['cr'] = $ahp['cr'] ?? 0;
+        }
+
+        $request->session()->put('result', $result);
 
         return view('users.proses.hasil_pilihan', [
-            'result' => MetodeHasil::hasilakhir($request)
+            'result' => $result
         ]);
     }
 
