@@ -41,11 +41,13 @@ Route::post('/login', [LoginController::class, 'login'])->name('login-request');
 Route::get('/logout',  [LogoutController::class, 'perform'])->name('logout.perform')->middleware('auth');
 
 
-Route::get('/dashboard/admin', [AdminController::class, 'dashboard'])->name('dashboard-admin');
-Route::resource('admin-prodi', ProdiController::class);
-Route::resource('admin-sekolah', SekolahController::class);
-Route::resource('admin-pilihan', PilihanController::class);
-Route::post('admin-pilihan/{id}', [PilihanController::class, 'store']);
-Route::resource('admin-kriteria', KriteriaController::class);
-Route::resource('admin-pertanyaan', PertanyaanController::class);
-Route::resource('admin-preferensi', PreferensiController::class);
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/dashboard/admin', [AdminController::class, 'dashboard'])->name('dashboard-admin');
+    Route::resource('admin-prodi', ProdiController::class);
+    Route::resource('admin-sekolah', SekolahController::class);
+    Route::resource('admin-pilihan', PilihanController::class);
+    Route::post('admin-pilihan/{id}', [PilihanController::class, 'store']);
+    Route::resource('admin-kriteria', KriteriaController::class);
+    Route::resource('admin-pertanyaan', PertanyaanController::class);
+    Route::resource('admin-preferensi', PreferensiController::class);
+});

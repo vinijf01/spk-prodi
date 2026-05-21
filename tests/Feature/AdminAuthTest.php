@@ -16,6 +16,7 @@ class AdminAuthTest extends TestCase
             'nama' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => 'admin123',
+            'is_admin' => true,
         ]);
 
         $this->post('/login', [
@@ -27,5 +28,16 @@ class AdminAuthTest extends TestCase
         $this->actingAs($admin)
             ->get('/dashboard/admin')
             ->assertOk();
+    }
+
+    public function test_non_admin_cannot_access_admin_dashboard(): void
+    {
+        $user = User::factory()->create([
+            'is_admin' => false,
+        ]);
+
+        $this->actingAs($user)
+            ->get('/dashboard/admin')
+            ->assertForbidden();
     }
 }
