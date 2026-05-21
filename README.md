@@ -107,3 +107,19 @@ php artisan migrate:fresh --seed
 
 # Jalankan server lokal
 php artisan serve
+
+## 🐳 Development dengan Docker (Laravel Sail)
+
+Jika kamu tidak punya PHP lokal (mis. laptop kantor), gunakan Sail:
+
+```bash
+# 1) Install vendor (akan otomatis lewat container jika perlu)
+./sail up -d
+
+# 2) Setup app
+./sail artisan key:generate
+./sail artisan migrate:fresh --seed
+
+# 3) Jalankan app
+./sail artisan serve --host=0.0.0.0 --port=80
+```
