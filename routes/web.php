@@ -37,7 +37,7 @@ Route::get('/cetak/hasil', [ProsesController::class, 'createPDF'])->name('create
 
 
 Route::get('/login', [LoginController::class, 'show'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login-request');
+Route::post('/login', [LoginController::class, 'login'])->name('login-request')->middleware('throttle:login');
 Route::get('/logout',  [LogoutController::class, 'perform'])->name('logout.perform')->middleware('auth');
 
 
