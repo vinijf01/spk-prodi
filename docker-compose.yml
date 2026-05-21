@@ -1,8 +1,9 @@
-version: '3.8'
-
 services:
   laravel.test:
-    image: 'laravelsail/php81-composer:latest'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "php -S 0.0.0.0:80 -t public"
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     ports:
