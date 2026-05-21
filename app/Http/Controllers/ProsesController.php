@@ -124,11 +124,8 @@ class ProsesController extends Controller
         $result = $request->session()->get('result');
 
         if (!$result) {
-            // Route `dashboard-user` tidak terdefinisi di repo ini; kembali ke landing page.
             return redirect()->route('index');
         }
-
-        $filename = 'hasil_rekomendasi_prodi.pdf';
 
         $data = [
             'title' => 'Hasil Rekomendasi Program Studi',
@@ -150,10 +147,13 @@ class ProsesController extends Controller
         // Tulis konten HTML
         $pdf->writeHTML($html, true, false, true, false, '');
 
-        // Simpan ke file publik
-        $pdf->Output(public_path($filename), 'F');
+        // Generate PDF ke string ('S') agar tidak menyimpan file ke disk (menghindari overwrite)
+        $pdfContent = $pdf->Output('', 'S');
 
-        // Unduh file
-        return response()->download(public_path($filename));
+        // Return response stream untuk download
+        return response($pdfContent, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="hasil_rekomendasi_prodi.pdf"',
+        ]);
     }
 }

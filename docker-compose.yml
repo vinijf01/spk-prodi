@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   laravel.test:
-    image: laravelsail/php81:latest
+    image: 'laravelsail/php81-composer:latest'
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     ports:
